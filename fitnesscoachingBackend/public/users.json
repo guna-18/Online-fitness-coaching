@@ -1,0 +1,62 @@
+[
+  {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "phoneNumber": "1234567890",
+    "hashedPassword": "hashedpassword1",
+    "address": "123 Main St",
+    "height": 180,
+    "weight": 75,
+    "gender": "Male",
+    "age": 30,
+    "usertype": "Admin"
+  },
+  {
+    "name": "Jane Doe",
+    "email": "jane@example.com",
+    "phoneNumber": "9876543210",
+    "hashedPassword": "hashedpassword2",
+    "address": "456 Oak St",
+    "height": 165,
+    "weight": 60,
+    "gender": "Female",
+    "age": 25,
+    "usertype": "User"
+  },
+  {
+    "name": "Bob Smith",
+    "email": "bob@example.com",
+    "phoneNumber": "5551234567",
+    "hashedPassword": "hashedpassword3",
+    "address": "789 Elm St",
+    "height": 175,
+    "weight": 80,
+    "gender": "Male",
+    "age": 35,
+    "usertype": "Coach"  
+  },
+  {
+    "name": "Alice Johnson",
+    "email": "alice@example.com",
+    "phoneNumber": "3339876543",
+    "hashedPassword": "hashedpassword4",
+    "address": "321 Pine St",
+    "height": 160,
+    "weight": 55,
+    "gender": "Female",
+    "age": 28,
+    "usertype": "User"
+  },
+  {
+    "name": "Admin User",
+    "email": "admin@example.com",
+    "phoneNumber": "1112223333",
+    "hashedPassword": "hashedpassword5",
+    "address": "555 Cedar St",
+    "height": 185,
+    "weight": 90,
+    "gender": "Male",
+    "age": 40,
+    "usertype": "Coach"  
+  }
+]
