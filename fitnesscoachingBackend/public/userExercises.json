@@ -1,0 +1,31 @@
+[
+    {
+      "userId": "6562e2f55958b87ec7e5d205",
+      "exerciseId": "65605f5b5958b87ec7e5c67e",
+      "sets": 3,
+      "reps": 12,
+      "dayOfWeek": "Monday"
+    },
+    {
+      "userId": "6562e2f55958b87ec7e5d205",
+      "exerciseId": "65605f5b5958b87ec7e5c67f",
+      "sets": 4,
+      "reps": 10,
+      "dayOfWeek": "Tuesday"
+    },
+    {
+        "userId": "6562e2f55958b87ec7e5d203",
+        "exerciseId": "65605f5b5958b87ec7e5c682",
+        "sets": 4,
+        "reps": 12,
+        "dayOfWeek": "Wednesday"
+    },
+    {
+        "userId": "6562e2f55958b87ec7e5d203",
+        "exerciseId": "65605f5b5958b87ec7e5c687",
+        "sets": 4,
+        "reps": 8,
+        "dayOfWeek": "Thursday"
+    }
+
+  ]
