@@ -2,27 +2,21 @@ const mongoose = require('mongoose');
 
 const membershipSchema = new mongoose.Schema({
   coachId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'UserDetails', // Reference to the UserDetails collection for coaches
-    required: true
+    type: String
   },
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'UserDetails', // Reference to the UserDetails collection for users
-    required: true
+    type: String
   },
   type: {
     type: String,
-    enum: ['elite', 'basic'], // Add more types as needed
-    required: true
+    enum: ['elite', 'basic'] // Add more types as needed
+
   },
   startDate: {
-    type: Date,
-    required: true
+    type: Date
   },
   endDate: {
-    type: Date,
-    required: true
+    type: Date
   }
 }, {
   versionKey: false

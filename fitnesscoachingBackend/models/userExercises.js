@@ -2,13 +2,11 @@ const mongoose = require('mongoose');
 
 const userExerciseSchema = new mongoose.Schema({
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'UserDetails', // Reference to the UserDetails collection
+    type: String,
     required: true
   },
   exerciseId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Exercise', // Reference to the Exercise collection
+    type: String,
     required: true
   },
   sets: {

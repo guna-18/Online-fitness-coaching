@@ -1,0 +1,17 @@
+[
+    {
+      "coachId": "6562e2f55958b87ec7e5d206",
+      "userId": "6562e2f55958b87ec7e5d205",
+      "type": "elite",
+      "startDate": "2023-02-01T00:00:00Z",
+      "endDate": "2023-11-30T23:59:59Z"
+    },
+    {
+      "coachId": "6562e2f55958b87ec7e5d206",
+      "userId": "6562e2f55958b87ec7e5d203",
+      "type": "elite",
+      "startDate": "2023-02-01T00:00:00Z",
+      "endDate": "2023-11-30T23:59:59Z"
+    }
+  ]
+  
