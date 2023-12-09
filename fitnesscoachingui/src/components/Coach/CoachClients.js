@@ -21,9 +21,11 @@ function CoachClients() {
   const [error, setError] = useState(null);
  const [users,setUsers] = useState(null);
   useEffect(() => {
+
+
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/coach/getClients/65728a3d1af158ba3f4e0215');
+        const response = await fetch('http://localhost:3001/coach/getClients/6562e2f55958b87ec7e5d206');
         const data = await response.json();
         setUsers(data);
         setLoading(false);
