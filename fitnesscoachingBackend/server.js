@@ -12,6 +12,8 @@ app.use(cors());
 
 const coachRoutes = require('./routes/coachRoutes');
 app.use('/coach', coachRoutes) ;
+const userRoutes = require('./routes/userRoutes');
+app.use('/user', userRoutes) ;
 
 app.get('/',(req,res)=>{res.send('Hello World!')});
 
