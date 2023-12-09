@@ -32,12 +32,12 @@ const ClientInfo = ({ user }) => {
         <Typography color="textSecondary">Address: {user.address}</Typography>
         <Typography color="textSecondary">Height: {user.height}</Typography>
         <Typography color="textSecondary">Weight: {user.weight}</Typography>
-        <Typography color="textSecondary">
+        {/* <Typography color="textSecondary">
           Membership Start Date: {user.membershipStartDate}
         </Typography>
         <Typography color="textSecondary">
           Membership End Date: {user.membershipEndDate}
-        </Typography>
+        </Typography> */}
       </CardContent>
     </Card>
   );

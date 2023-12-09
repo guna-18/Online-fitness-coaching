@@ -8,7 +8,7 @@ function ClientCard(props){
         navigate('/clients/'+userId);
     };
 return(<>
-<Card key={user.id} onClick={() => navigateToClientHandler(user.id)}>
+<Card key={user._id} onClick={() => navigateToClientHandler(user._id)}>
           <CardContent>
             <Stack direction="row" alignItems="center" spacing={2}>
               <Avatar>{user.name[0]}</Avatar>

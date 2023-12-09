@@ -12,7 +12,11 @@ function App() {
       <Routes>
         <Route path="/" element={<CoachHomePage/>}/>
         <Route path="/clients" element={<CoachClients/>}/>
-        <Route path="/clients/:clientId" element={<CoachAddExercises/>}/>
+        <Route
+  path="/clients/:clientId"
+  element={<CoachAddExercises />}
+/>
+       
       </Routes>
 </BrowserRouter>
   );
