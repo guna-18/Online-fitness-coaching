@@ -51,7 +51,7 @@ const UserTab = () => {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 console.log('User updated successfully');
-                window.location.reload(false);
+
             } catch (error) {
                 console.error("Error updating user:", error);
             }
