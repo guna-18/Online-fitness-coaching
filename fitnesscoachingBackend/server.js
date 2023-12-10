@@ -64,18 +64,25 @@ app.post('/register', async (req, res) => {
       const { email, password } = req.body;
   
       const user = await UserDetails.findOne({ email });
-  
+
       if (!user) {
         return res.status(401).send('Invalid email or password.');
       }
   
       const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
+      console.log("hashed pssword is :"+isPasswordValid);
   
       if (!isPasswordValid) {
         return res.status(401).send('Invalid email or password.');
       }
-  
-      res.status(200).send('Login successful.');
+      const userId = user._id.toString();
+
+      res.status(200).json({
+        message: 'Login successful.',
+        userId: userId,
+        usertype: user.usertype
+      });
+      
     } catch (error) {
       res.status(500).send(error.message);
     }
