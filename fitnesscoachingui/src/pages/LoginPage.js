@@ -5,30 +5,50 @@ import {
   TextField,
   Button,
   Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
+  Alert,
 } from '@mui/material';
-// import { useHistory } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 
-const LoginPage = () => {
- const navigate = useNavigate();
+const LoginPage = ({ changeUserId, changeUserType }) => {
+  const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
     usertype: 'User', // Default usertype set to 'User'
   });
 
-//   const history = useHistory();
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
+    // Clear the error for the field when the user starts typing
+    setErrors({ ...errors, [e.target.name]: null });
   };
 
   const handleLogin = async () => {
-    // Implement login logic (send data to the backend)
+    // Validate form fields
+    const newErrors = {};
+
+    if (!loginData.email) {
+      newErrors.email = 'Email is required';
+    } else {
+      // Email pattern check
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(loginData.email)) {
+        newErrors.email = 'Invalid email address';
+      }
+    }
+
+    if (!loginData.password) {
+      newErrors.password = 'Password is required';
+    } 
+
+    // If there are errors, update the state and return
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     try {
       const response = await fetch('http://localhost:3001/login', {
         method: 'POST',
@@ -39,25 +59,26 @@ const LoginPage = () => {
       });
 
       if (response.ok) {
-        console.log('Login successful');
-        if(loginData.usertype=='User'){
-            navigate('/user');
+        const responseData = await response.json();
+        const { userId, usertype } = responseData;
+        sessionStorage.setItem('userId', userId);
+        sessionStorage.setItem('usertype', usertype);
+        changeUserId(userId);
+        if (usertype === 'User') {
+          changeUserType('User');
+          navigate('/user');
+        } else if (usertype === 'Coach') {
+          changeUserType('Coach');
+          navigate('/coachHomepage');
+        } else {
+          changeUserType('Admin');
+          navigate('/Admin');
         }
-        else if(loginData.usertype == 'coach'){
-            navigate('/coach');
-        }
-        else{
-            navigate('/admin');
-        }
-        // Redirect or handle success as needed
-       // history.push('/dashboard'); // Redirect to the dashboard page after successful login
       } else {
-        console.error('Login failed');
-        // Handle error as needed
+        setErrors({ general: 'Login failed' });
       }
     } catch (error) {
-      console.error('Error during login:', error.message);
-      // Handle error as needed
+      setErrors({ general: `Error during login: ${error.message}` });
     }
   };
 
@@ -77,16 +98,6 @@ const LoginPage = () => {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <FormControl fullWidth margin="normal">
-            <InputLabel>User Type</InputLabel>
-            <Select name="usertype" value={loginData.usertype} onChange={handleChange}>
-              <MenuItem value="User">User</MenuItem>
-              <MenuItem value="Coach">Coach</MenuItem>
-              <MenuItem value="Admin">Admin</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}>
           <TextField
             label="Email"
             fullWidth
@@ -95,6 +106,8 @@ const LoginPage = () => {
             type="email"
             value={loginData.email}
             onChange={handleChange}
+            error={Boolean(errors.email)}
+            helperText={errors.email}
           />
         </Grid>
         <Grid item xs={12}>
@@ -106,12 +119,24 @@ const LoginPage = () => {
             type="password"
             value={loginData.password}
             onChange={handleChange}
+            error={Boolean(errors.password)}
+            helperText={errors.password}
           />
         </Grid>
         <Grid item xs={12}>
           <Button variant="contained" color="primary" fullWidth onClick={handleLogin}>
             Login
           </Button>
+        </Grid>
+        <Grid item xs={12}>
+          {errors.general && <Alert severity="error">{errors.general}</Alert>}
+        </Grid>
+        <Grid item xs={12}>
+          <Link to="/register">
+            <Button variant="contained" color="primary" fullWidth>
+              Register
+            </Button>
+          </Link>
         </Grid>
       </Grid>
     </Container>

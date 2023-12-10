@@ -313,6 +313,12 @@ const ExerciseFiltering = (props) => {
                   <Select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
                     <MenuItem value="">All</MenuItem>
                     <MenuItem value="Strength">Strength</MenuItem>
+                    <MenuItem value="Cardio">Cardio</MenuItem>
+                    <MenuItem value="Olympic Weightlifting">Olympic Weightlifting</MenuItem>
+                    <MenuItem value="Plyometrics">Plyometrics</MenuItem>
+                    <MenuItem value="Powerlifting">Powerlifting</MenuItem>
+                    <MenuItem value="Stretching">Stretching</MenuItem>
+                    <MenuItem value="Strongman">Strongman</MenuItem>
                     {/* Add other types as needed */}
                   </Select>
                 </FormControl>
@@ -325,8 +331,22 @@ const ExerciseFiltering = (props) => {
                     onChange={(e) => setFilterBodyPart(e.target.value)}
                   >
                     <MenuItem value="">All</MenuItem>
-                    <MenuItem value="Chest">Chest</MenuItem>
+                    <MenuItem value="Abductors">Abductors</MenuItem>
+                    <MenuItem value="Biceps">Biceps</MenuItem>
+                    <MenuItem value="Calves">Calves</MenuItem>
                     <MenuItem value="Abdominals">Abdominals</MenuItem>
+                    <MenuItem value="Chest">Chest</MenuItem>
+                    <MenuItem value="Forearms">Forearms</MenuItem>
+                    <MenuItem value="Glutes">Glutes</MenuItem>
+                    <MenuItem value="Hamstrings">Hamstrings</MenuItem>
+                    <MenuItem value="Lats">Lats</MenuItem>
+                    <MenuItem value="Lower Back">Lower Back</MenuItem>
+                    <MenuItem value="Middle Back">Middle Back</MenuItem>
+                    <MenuItem value="Neck">Neck</MenuItem>
+                    <MenuItem value="Quadriceps">Quadriceps</MenuItem>
+                    <MenuItem value="Shoulders">Shoulders</MenuItem>
+                    <MenuItem value="Traps">Traps</MenuItem>
+                    <MenuItem value="Triceps">Triceps</MenuItem>
                     {/* Add other body parts as needed */}
                   </Select>
                 </FormControl>
@@ -341,6 +361,8 @@ const ExerciseFiltering = (props) => {
                     <MenuItem value="">All</MenuItem>
                     <MenuItem value="Barbell">Barbell</MenuItem>
                     <MenuItem value="Bands">Bands</MenuItem>
+                    <MenuItem value="Cable">Cable</MenuItem>Body Only
+                    <MenuItem value="Body Only">Body Only</MenuItem>
                     {/* Add other equipment as needed */}
                   </Select>
                 </FormControl>
@@ -355,6 +377,7 @@ const ExerciseFiltering = (props) => {
                     <MenuItem value="">All</MenuItem>
                     <MenuItem value="Beginner">Beginner</MenuItem>
                     <MenuItem value="Intermediate">Intermediate</MenuItem>
+                    <MenuItem value="Expert">Expert</MenuItem>
                     {/* Add other levels as needed */}
                   </Select>
                 </FormControl>
