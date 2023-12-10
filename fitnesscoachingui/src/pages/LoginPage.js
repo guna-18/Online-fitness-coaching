@@ -61,7 +61,8 @@ const LoginPage = ({ changeUserId, changeUserType }) => {
       if (response.ok) {
         const responseData = await response.json();
         const { userId, usertype } = responseData;
-
+        sessionStorage.setItem('userId', userId);
+        sessionStorage.setItem('usertype', usertype);
         changeUserId(userId);
         if (usertype === 'User') {
           changeUserType('User');
