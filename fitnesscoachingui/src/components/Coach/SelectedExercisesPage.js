@@ -16,7 +16,7 @@ import {
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const SelectedExercisesPage = ({ selectedExercises,deleteExerciseList,handlePublishToUser }) => {
+const SelectedExercisesPage = ({ selectedExercises,deleteExerciseList,handlePublishToUser, updateExercises }) => {
   const [page, setPage] = useState(1);
   const rowsPerPage = 5;
 
@@ -31,23 +31,12 @@ const SelectedExercisesPage = ({ selectedExercises,deleteExerciseList,handlePubl
     // Add more data for additional days
   ];
 
-  const handleSetsRepsChange = (day, exerciseId, field, value) => {
+  const handleSetsRepsChange = (exerciseId, field, value) => {
     // Update the setsRepsData based on the changes
     // This is a basic example, you may need to manage state or make API calls in a real app
-    const updatedData = setsRepsData.map((data) =>
-      data.day === day
-        ? {
-            ...data,
-            [exerciseId]: {
-              ...data[exerciseId],
-              [field]: value,
-            },
-          }
-        : data
-    );
-
+    updateExercises(exerciseId, field, value);
     // Log the updated data (replace with your actual logic)
-    console.log('Updated Sets and Reps Data:', updatedData);
+   // console.log('Updated Sets and Reps Data:', updatedData);
   };
 
   const handleDeleteExercise = (exerciseId) => {
@@ -99,14 +88,14 @@ const SelectedExercisesPage = ({ selectedExercises,deleteExerciseList,handlePubl
                   <TextField
                     type="number"
                     defaultValue={sets} // Set the default value based on your actual data
-                    onChange={(e) => handleSetsRepsChange(1, _id, 'sets', e.target.value)}
+                    onChange={(e) => handleSetsRepsChange(_id, 'sets', e.target.value)}
                   />
                 </TableCell>
                 <TableCell>
                   <TextField
                     type="number"
                     defaultValue={reps} // Set the default value based on your actual data
-                    onChange={(e) => handleSetsRepsChange(1, _id, 'reps', e.target.value)}
+                    onChange={(e) => handleSetsRepsChange( _id, 'reps', e.target.value)}
                   />
                 </TableCell>
                 <TableCell>
@@ -130,10 +119,10 @@ const SelectedExercisesPage = ({ selectedExercises,deleteExerciseList,handlePubl
     </Table>
   </TableContainer>
   <Pagination
-    count={Math.ceil((selectedExercises && selectedExercises.length) || 1 / rowsPerPage)}
-    page={page}
-    onChange={handleChangePage}
-  />
+  count={Math.ceil((selectedExercises && selectedExercises.length) / rowsPerPage) || 1}
+  page={page}
+  onChange={handleChangePage}
+/>
   <Button variant="contained" color="primary" onClick={handlePublishToUserClick}>
     Publish to User
   </Button>
