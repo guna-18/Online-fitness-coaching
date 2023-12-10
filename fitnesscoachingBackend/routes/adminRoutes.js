@@ -16,7 +16,13 @@ router.get('/exercises', async (req, res) => {
 router.get('/users', async (req, res) => {
     try {
         const users = await Users.find();
-        res.json(users);
+        userss = users.map(user => {
+            if (user.profileImage && user.profileImage.data) {
+                user.profileImage.data = user.profileImage.data.toString('base64');
+            }
+            return user;
+        });
+        res.json(userss);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
