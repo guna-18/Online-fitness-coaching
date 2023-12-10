@@ -58,12 +58,17 @@ const UserTab = () => {
         }
     };
 
+    const toBase64 = (binaryStr) => {
+        return binaryStr; // If you have the base64 string already, just return it directly
+    };
+
 
     return (
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>
                     <TableRow>
+                        <TableCell>Image</TableCell>
                         <TableCell>Name</TableCell>
                         <TableCell>User Type</TableCell>
                         <TableCell>Email</TableCell>
@@ -77,6 +82,19 @@ const UserTab = () => {
                 <TableBody>
                     {users.map(user => (
                         <TableRow key={user._id}>
+                            <TableCell>
+                                {/* Displaying the User's Image */}
+                                {user.profileImage && user.profileImage.data ? (
+                                    <img
+                                        // src={`data:${user.profileImage.contentType};base64,${user.profileImage.data}`}
+                                        src={"/default.png"}
+                                        alt="User"
+                                        style={{ width: '50px', height: '50px' }}
+                                    />
+                                ) : (
+                                    <span>No Image</span> // Fallback text or you can put a default image here
+                                )}
+                            </TableCell>
                             <TableCell>
                                 <TextField
                                     value={user.name}

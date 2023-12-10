@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   TextField,
   Button,
@@ -9,9 +9,11 @@ import {
   FormControl,
   InputLabel,
   Grid,
-  Alert,
+  Alert, Avatar, IconButton,
 } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import {PhotoCamera} from "@mui/icons-material";
+import imageCompression from 'browser-image-compression';
 
 const RegistrationPage = () => {
   const navigate = useNavigate();
@@ -29,10 +31,52 @@ const RegistrationPage = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [image, setImage] = useState("/default.png");
+  const [compressedImageFile, setCompressedImageFile] = useState(null);
+
+  useEffect(() => {
+    // Compress the default image when the component mounts
+    const compressDefaultImage = async () => {
+      const defaultImage = await fetch('/default.png').then(r => r.blob());
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true
+      };
+
+      try {
+        const compressedFile = await imageCompression(defaultImage, options);
+        setCompressedImageFile(compressedFile);
+      } catch (error) {
+        console.error('Default image compression error:', error);
+      }
+    };
+
+    compressDefaultImage();
+  }, []);
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
     // Clear the error for the field when the user starts typing
+    setErrors({ ...errors, [e.target.name]: null });
+  };
+  const handleImageUpload = async (e) => {
+    const imageFile = e.target.files[0];
+
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true
+    };
+
+    try {
+      const compressedFile = await imageCompression(imageFile, options);
+      setCompressedImageFile(compressedFile); // Setting the state after compression is done
+      setImage(URL.createObjectURL(compressedFile));
+    } catch (error) {
+      console.error('Image compression error:', error);
+    }
+
     setErrors({ ...errors, [e.target.name]: null });
   };
 
@@ -79,14 +123,23 @@ const RegistrationPage = () => {
       setErrors(newErrors);
       return;
     }
+    // Check if the image compression is completed
+    if (!compressedImageFile && image !== "/default.png") {
+      setErrors({ ...errors, general: 'Please wait for the image to finish uploading.' });
+      return;
+    }
 
+    const formData = new FormData();
+    for (const key in userData) {
+      formData.append(key, userData[key]);
+    }
+    formData.append('profileImage', compressedImageFile);
+
+    // console.log(compressedImageFile)
     try {
       const response = await fetch('http://localhost:3001/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
+        body: formData
       });
 
       if (response.ok) {
@@ -112,6 +165,21 @@ const RegistrationPage = () => {
           </Typography>
         </Grid>
         <Grid item xs={12}>
+          <Grid item xs={12} style={{ textAlign: 'center' }}>
+            <Avatar src={image} style={{ width: 100, height: 100, margin: 'auto' }} />
+            <input
+                accept="image/*"
+                style={{ display: 'none' }}
+                id="icon-button-file"
+                type="file"
+                onChange={handleImageUpload}
+            />
+            <label htmlFor="icon-button-file">
+              <IconButton color="primary" aria-label="upload picture" component="span">
+                <PhotoCamera />
+              </IconButton>
+            </label>
+          </Grid>
           <TextField
             label="Name"
             fullWidth
