@@ -13,7 +13,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 
 
-function CoachNavBar({userType}) {
+function CoachNavBar({userType,changeUserId}) {
   const navigate = useNavigate();
 
 
@@ -25,6 +25,14 @@ function CoachNavBar({userType}) {
   };
   const navigateCoachHomeHandler = () => {
     navigate('/coachHomepage');
+  };
+  const handleLogout = () => {
+    // Clear sessionStorage items
+    sessionStorage.removeItem("userId");
+    sessionStorage.removeItem("usertype");
+    changeUserId(null);
+    // Redirect to the login page
+    navigate("/login");
   };
   
   return (
@@ -53,6 +61,9 @@ function CoachNavBar({userType}) {
               Clients
             </Button>
           )}
+          <Button color="inherit" onClick={handleLogout}>
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>
