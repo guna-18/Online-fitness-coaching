@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from "react-router-dom";
 import {
   Table,
@@ -17,7 +19,7 @@ import {
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const SelectedExercisesPage = ({ selectedExercises,deleteExerciseList,handlePublishToUser }) => {
+const SelectedExercisesPage = ({ selectedExercises,deleteExerciseList,deleteWholeList }) => {
   const [page, setPage] = useState(1);
   const rowsPerPage = 5;
   const {user_id}=useParams();
@@ -53,11 +55,12 @@ const SelectedExercisesPage = ({ selectedExercises,deleteExerciseList,handlePubl
       const userId = exerciseDataList[0].userId;
 
       await postExerciseData(exerciseDataList);
-      selectedExercises=[];
+      deleteWholeList();
       // Optionally, you can reset the selected exercises after publishing
      // setSelectedExercises([]);
     } else {
       // Handle the case where no exercises are selected or no day is chosen
+      toast.warn('No exercises selected or day not chosen',{position:"top-right",autoClose:5000,hideProgressBar:true});
       console.log('No exercises selected or day not chosen');
     }
 };
@@ -77,14 +80,17 @@ const postExerciseData = async (exerciseData) => {
   
       if (!response.ok) {
         // Handle error, throw an exception, or return a meaningful response
+        toast.error(`Failed to post exercise data. Status: ${response.status}`,{position:"top-right",hideProgressBar:true});
         throw new Error(`Failed to post exercise data. Status: ${response.status}`);
       }
   
       // Exercise data successfully posted
       const result = await response.text();
       console.log('Exercise data posted successfully:', result);
+      toast.success('Exercise data posted successfully',{position:"top-right",autoClose:5000,hideProgressBar:true});
     } catch (error) {
       console.log('Error posting exercise data:', error.message);
+      toast.error('Error posting exercise data',{position:"top-right",autoClose:5000,hideProgressBar:true});
       // Handle error appropriately based on your application's needs
     }
   };
@@ -166,6 +172,7 @@ const postExerciseData = async (exerciseData) => {
   <Button variant="contained" color="primary" onClick={submitExercises}>
     Submit Exercises
   </Button>
+  <ToastContainer position="top-right" autoClose={5000} hideProgressBar={true}/>
 </Paper>
 
   );

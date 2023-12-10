@@ -52,6 +52,10 @@ const deleteExercises = (id) => {
   });
 };
 
+  const deleteAll=()=>{
+    setSelectedExercises([]);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -100,7 +104,7 @@ const deleteExercises = (id) => {
         <ExerciseFiltering addExercisestoList={addExercises}/>
       </Grid>
       <Grid item xs={4}>
-      <SelectedExercisesPage selectedExercises={selectedExercises} deleteExerciseList={deleteExercises}/>
+      <SelectedExercisesPage selectedExercises={selectedExercises} deleteExerciseList={deleteExercises} deleteWholeList={deleteAll}/>
     </Grid>
     </Grid>
     </>
