@@ -3,12 +3,12 @@ import CoachClients from './components/Coach/CoachClients';
 import CoachNavBar from './components/Coach/CoachNavBar';
 import CoachHomePage from './pages/CoachHomePage';
 import CoachAddExercises from './pages/CoachAddExercises';
+import BasicUserAddExercises from './pages/BasicUserAddExercises';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Admin from "./components/admin/Admin";
 import RegistrationPage from './pages/RegistrationPage';
 import LoginPage from './pages/LoginPage';
 import {useState} from 'react';
-
 
 function App() {
   const [userID,setUserId] = useState(null);
@@ -34,7 +34,7 @@ function App() {
 />
 <Route path="/register" element={<RegistrationPage/>}/>
 <Route path="/login" element={<LoginPage changeUserId={changeUserId} changeUserType={changeUserType}/>}/>
-       
+       <Route path="/home/basicUser/:user_id" element={<BasicUserAddExercises />}/>
       </Routes>
 </BrowserRouter>
   );
