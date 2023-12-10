@@ -94,7 +94,7 @@ const RegistrationPage = () => {
         navigate('/login');
         // Redirect or handle success as needed
       } else {
-        console.error('Registration failed');
+        setErrors({ general: 'User already exists' });
         // Handle error as needed
       }
     } catch (error) {
