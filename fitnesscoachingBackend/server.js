@@ -36,6 +36,12 @@ app.post('/register', async (req, res) => {
         age,
         usertype,
       } = req.body;
+
+      const existingUser = await UserDetails.findOne({ email });
+
+      if (existingUser) {
+        return res.status(401).send('Email already registered.');
+      }
   
       const hashedPassword = await bcrypt.hash(password, 10);
   
@@ -70,7 +76,6 @@ app.post('/register', async (req, res) => {
       }
   
       const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
-      console.log("hashed pssword is :"+isPasswordValid);
   
       if (!isPasswordValid) {
         return res.status(401).send('Invalid email or password.');
@@ -82,7 +87,7 @@ app.post('/register', async (req, res) => {
         userId: userId,
         usertype: user.usertype
       });
-      
+     
     } catch (error) {
       res.status(500).send(error.message);
     }
