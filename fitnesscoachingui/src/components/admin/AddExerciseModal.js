@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, TextField, Button, DialogContent, DialogTitle, DialogActions } from '@mui/material';
 
-const AddExerciseModal = ({ open, handleClose }) => {
+const AddExerciseModal = ({ open, handleClose, refresh }) => {
     const [exerciseData, setExerciseData] = useState({
         Title: '',
         Desc: '',
@@ -31,11 +31,12 @@ const AddExerciseModal = ({ open, handleClose }) => {
             }
 
             console.log('Exercise added successfully');
+            refresh(true)
+
         } catch (error) {
             console.error("Error adding exercise:", error);
         }
         handleClose();
-        window.location.reload(false);
     };
 
 

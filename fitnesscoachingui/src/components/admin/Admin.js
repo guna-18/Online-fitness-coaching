@@ -74,7 +74,7 @@ const Admin = () => {
 
             setError("")
             console.log('Exercises removed successfully');
-            window.location.reload(false);
+            handleRefresh(true)
         } catch (error) {
             console.error("Error removing exercises:", error);
         }
@@ -142,6 +142,17 @@ const Admin = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const handleRefresh = (e) => {
+        if(e)  {
+            setFilterType('');
+            setFilterBodyPart('');
+            setFilterLevel('');
+            setSearchQuery('');
+            fetchExercises();
+            fetchFilterOptions()
+        }
+    }
 
 
     return (
@@ -248,7 +259,7 @@ const Admin = () => {
                         </TableContainer>
                             <div style={{ display: 'flex', justifyContent: 'space-between', margin: '10px 0' }}>
                                 <Button onClick={handleOpenModal}>Add Exercise</Button>
-                                <AddExerciseModal open={isAddExerciseModalOpen} handleClose={handleCloseModal} />
+                                <AddExerciseModal open={isAddExerciseModalOpen} handleClose={handleCloseModal} refresh={handleRefresh} />
                                 <Button onClick={handleRemoveExercises} variant="outlined" color="secondary" >Remove Exercise</Button>
                             </div>
 

@@ -1,12 +1,3 @@
-<<<<<<< Updated upstream
-import React from 'react';
-
-export default function LoginPage(){
-return(
-<></>
-);
-}
-=======
 import React, { useState } from "react";
 import {
   Container,
@@ -185,4 +176,3 @@ const LoginPage = ({ changeUserId, changeUserType }) => {
 };
 
 export default LoginPage;
->>>>>>> Stashed changes
