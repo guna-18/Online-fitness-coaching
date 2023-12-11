@@ -99,8 +99,18 @@ const LoginPage = ({ changeUserId, changeUserType }) => {
       if (response.ok) {
         const responseData = await response.json();
         const { userId, usertype } = responseData;
-
-        await fetchMembershipData(userId, usertype);
+        sessionStorage.setItem("userId", userId);
+        sessionStorage.setItem("usertype", usertype);
+        changeUserId(userId);
+        if (usertype === "Coach") {
+          changeUserType("Coach");
+          navigate("/coachHomepage");
+        } else if (usertype === "Admin") {
+          changeUserType("Admin");
+          navigate("/Admin");
+        } else {
+          await fetchMembershipData(userId, usertype);
+        }
       } else {
         setErrors({ general: "Login failed" });
       }

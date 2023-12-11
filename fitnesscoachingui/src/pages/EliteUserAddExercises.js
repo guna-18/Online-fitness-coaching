@@ -50,6 +50,16 @@ const EliteUserAddExercises = () => {
       {error && <p>{error}</p>}
       {!loading && !error && (
         <>
+          <div
+            style={{
+              textAlign: "center",
+              fontSize: "2.5em",
+              color: "#222", // Darker color
+              marginTop: "20px", // Added margin-top
+            }}
+          >
+            Elite User
+          </div>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <EliteUserExerciseElite

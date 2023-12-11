@@ -366,6 +366,15 @@ const EliteUserExerciseFiltering = (props) => {
                 />
               </TableCell>
             </TableRow>
+            <TableRow>
+              <TableCell></TableCell>
+              <TableCell>Title</TableCell>
+              <TableCell>Day of Week</TableCell>
+              <TableCell>Today's Date</TableCell>
+              <TableCell>Sets</TableCell>
+              <TableCell>Reps</TableCell>
+              <TableCell>Track</TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>
             {(rowsPerPage > 0
@@ -380,38 +389,43 @@ const EliteUserExerciseFiltering = (props) => {
               const isItemSelected = isSelected(exercise);
 
               return (
-                <TableRow key={_id} hover selected={isItemSelected}>
-                  <TableCell>
-                    <Checkbox
-                      checked={isItemSelected}
-                      onChange={(event) =>
-                        handleCheckboxChange2(event, exercise)
-                      }
-                    />
-                  </TableCell>
-                  <TableCell>{Title}</TableCell>
-                  <TableCell>{new Date().toLocaleDateString()}</TableCell>
-                  <TableCell>
-                    <FormControl sx={{ minWidth: 30, marginRight: "16px" }}>
-                      <TextField
-                        label="Sets"
-                        type="number"
-                        min="0"
-                        value={exerciseSetsReps[_id]?.sets || 1}
-                        onChange={(e) => handleSetsChange(e, _id)}
+                <>
+                  <TableRow key={_id} hover selected={isItemSelected}>
+                    <TableCell>
+                      <Checkbox
+                        checked={isItemSelected}
+                        onChange={(event) =>
+                          handleCheckboxChange2(event, exercise)
+                        }
                       />
-                    </FormControl>
-                    <FormControl sx={{ minWidth: 30, marginRight: "16px" }}>
-                      <TextField
-                        label="Reps"
-                        type="number"
-                        min="0"
-                        value={exerciseSetsReps[_id]?.reps || 1}
-                        onChange={(e) => handleRepsChange(e, _id)}
-                      />
-                    </FormControl>
-                  </TableCell>
-                </TableRow>
+                    </TableCell>
+                    <TableCell>{Title}</TableCell>
+                    <TableCell>{exercise.dayOfWeek}</TableCell>
+                    <TableCell>{new Date().toLocaleDateString()}</TableCell>
+                    <TableCell>{exercise.sets}</TableCell>
+                    <TableCell>{exercise.reps}</TableCell>
+                    <TableCell>
+                      <FormControl sx={{ minWidth: 30, marginRight: "16px" }}>
+                        <TextField
+                          label="Sets"
+                          type="number"
+                          min="0"
+                          value={exerciseSetsReps[_id]?.sets || 1}
+                          onChange={(e) => handleSetsChange(e, _id)}
+                        />
+                      </FormControl>
+                      <FormControl sx={{ minWidth: 30, marginRight: "16px" }}>
+                        <TextField
+                          label="Reps"
+                          type="number"
+                          min="0"
+                          value={exerciseSetsReps[_id]?.reps || 1}
+                          onChange={(e) => handleRepsChange(e, _id)}
+                        />
+                      </FormControl>
+                    </TableCell>
+                  </TableRow>
+                </>
               );
             })}
             <ToastContainer
