@@ -16,14 +16,17 @@ import {useState,useEffect} from 'react';
 //   { id: 6, name: "Jane Doe", username: "jane_doe", email: "jane@example.com" },
 //   { id: 7, name: "John Doe", username: "john_doe", email: "john@example.com" }
 // ];
-function CoachClients() {
+function CoachClients({userId}) {
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
  const [users,setUsers] = useState(null);
   useEffect(() => {
+
+
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/coach/getClients/65728a3d1af158ba3f4e0215');
+        const response = await fetch(`http://localhost:3001/coach/getClients/${userId}`);
         const data = await response.json();
         setUsers(data);
         setLoading(false);

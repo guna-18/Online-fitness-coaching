@@ -1,22 +1,22 @@
 const mongoose = require('mongoose');
 
 const exerciseSchema = new mongoose.Schema({
-  title: {
+  Title: {
     type: String,
   },
-  description: {
+  Desc: {
     type: String,
   },
-  type: {
+  Type: {
     type: String,
   },
-  bodypart: {
+  BodyPart: {
     type: String,
   },
-  equipment: {
+  Equipment: {
     type: String
   },
-  level: {
+  Level: {
     type: String,
   }
 }, {

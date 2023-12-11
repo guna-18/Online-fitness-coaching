@@ -1,9 +1,11 @@
 <<<<<<< Updated upstream
 require('dotenv').config();
+const bcrypt = require('bcrypt');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
+const UserDetails = require('./models/userDetails')
 =======
 require("dotenv").config();
 const bcrypt = require("bcrypt");

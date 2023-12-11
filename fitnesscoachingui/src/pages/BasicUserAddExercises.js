@@ -52,6 +52,10 @@ const BasicUserAddExercises = () => {
     });
   };
 
+  const deleteAll = () => {
+    setSelectedExercises([]);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -101,6 +105,7 @@ const BasicUserAddExercises = () => {
               <SelectedExercisesPage
                 selectedExercises={selectedExercises}
                 deleteExerciseList={deleteExercises}
+                deleteWholeList={deleteAll}
               />
             </Grid>
           </Grid>

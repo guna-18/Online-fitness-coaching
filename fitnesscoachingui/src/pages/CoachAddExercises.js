@@ -112,6 +112,15 @@ const deleteExercises = (id) => {
   });
 };
 
+const updateExercises = (exerciseId, field, value) => {
+  // Update the modifiedExercises array based on the changes
+  const updatedExercises = selectedExercises.map((exercise) =>
+    exercise._id === exerciseId ? { ...exercise, [field]: value } : exercise
+  );
+  setSelectedExercises(updatedExercises);
+};
+
+
 
 
 const handlePublishToUser = async ()=> {
@@ -259,7 +268,7 @@ const postExerciseData = async (exerciseData) => {
         <ExerciseFiltering addExercisestoList={addExercises}/>
       </Grid>
       <Grid item xs={4}>
-      <SelectedExercisesPage selectedExercises={selectedExercises} deleteExerciseList={deleteExercises} handlePublishToUser={handlePublishToUser}/>
+      <SelectedExercisesPage selectedExercises={selectedExercises} deleteExerciseList={deleteExercises} handlePublishToUser={handlePublishToUser} updateExercises={updateExercises}/>
     </Grid>
     </Grid>
     <Grid container spacing={8}>

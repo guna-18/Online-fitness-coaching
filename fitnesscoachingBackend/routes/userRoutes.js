@@ -28,12 +28,26 @@ const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("----Connected to MONGO DB----"));
 
-<<<<<<< Updated upstream
-router.get('/recommend',async (req,res)=>{
+router.get('/recommend/:userId',async (req,res)=>{
     try{
-        const recommendations=await Exercises.aggregate([
-            {$sample:{size:7}}
-        ]);
+        const userId=req.params.userId;
+        const recommendations=await UserExercises.find(
+            {"userId":userId}
+        ).limit(6);
+        res.json(recommendations);
+    }
+    catch(error){
+        console.error('Error fetching exercises',error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+router.get('/all/:userId',async (req,res)=>{
+    try{
+        const userId=req.params.userId;
+        const recommendations=await UserExercises.find(
+            {"userId":userId}
+        );
         res.json(recommendations);
     }
     catch(error){
@@ -85,25 +99,47 @@ router.post('/track',async (req,res)=>{
 
 router.post('/addExercise',async (req,res)=>{
     try{
-        const {userId,exerciseId,sets,reps,dayOfWeek}=req.body;
-        const newExercise={
-            "userId":userId,
-            "exerciseId":exerciseId,
-            "sets":sets,
-            "reps":reps,
-            "dayOfWeek":dayOfWeek
-        };
-        const insertedExercise=await UserExercises.insert(newExercise);
-        res.send('Exercise added successfully!');
+        const exercisesToAdd=req.body;
+        const insertedExercise=await UserExercises.insertMany(exercisesToAdd);
+        res.send('Exercises added successfully!');
     }
     catch(err){
-        console.error('Error adding exercise:',err);
+        console.error('Error adding exercises:',err);
         res.status(500).json({error:'Internal Server Error'});
     }
 });
 
+router.post('/add',async (req,res)=>{
+    try{
+        const exercisesToAdd=req.body;
+        //req.session.cart=exercisesToAdd;
+        res.send('Exercises saved in session!');
+    }
+    catch(err){
+        console.error('Error saving exercises in session:',err);
+        res.status(500).json({error:'Internal Server Error'});
+    }
+});
+
+router.delete('/exercises/:exerciseId', async (req, res) => {
+    try {
+      const exerciseId = req.params.exerciseId;
+      const result = await UserExercises.deleteOne({"_id" : exerciseId });
+      if (result.deletedCount > 0) {
+        res.json({ message: "Deleted an exercise with exerciseId: ${exerciseId}"})
+    }
+       else {
+        res.status(404).json({ message: `No exercises found with exerciseId: ${exerciseId}` });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+});
+
+
 module.exports = router;
-=======
+
 router.get("/recommend/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -203,6 +239,23 @@ router.delete("/exercises/:exerciseId", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+router.delete('/exercises/:exerciseId', async (req, res) => {
+    try {
+      const exerciseId = req.params.exerciseId;
+      const result = await UserExercises.deleteOne({"_id" : exerciseId });
+      if (result.deletedCount > 0) {
+        res.json({ message: "Deleted an exercise with exerciseId: ${exerciseId}"})
+    }
+       else {
+        res.status(404).json({ message: `No exercises found with exerciseId: ${exerciseId}` });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+});
+
 
 module.exports = router;
 >>>>>>> Stashed changes
