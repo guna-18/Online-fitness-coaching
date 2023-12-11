@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Container,
   Typography,
@@ -6,18 +6,19 @@ import {
   Button,
   Grid,
   Alert,
-} from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+} from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = ({ changeUserId, changeUserType }) => {
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
-    email: '',
-    password: '',
-    usertype: 'User', // Default usertype set to 'User'
+    email: "",
+    password: "",
+    usertype: "User", // Default usertype set to 'User'
   });
 
   const [errors, setErrors] = useState({});
+  const [membershipData, setMembershipData] = useState(null);
 
   const handleChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -25,23 +26,60 @@ const LoginPage = ({ changeUserId, changeUserType }) => {
     setErrors({ ...errors, [e.target.name]: null });
   };
 
+  const fetchMembershipData = async (userId, usertype) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/membership/${userId}`
+      );
+
+      if (response.ok) {
+        const membershipData = await response.json();
+        console.log("first", membershipData.type);
+        setMembershipData(membershipData.type);
+        changeUserId(userId);
+
+        console.log("second", membershipData.type);
+        if (usertype === "User") {
+          changeUserType("User");
+          if (membershipData && membershipData.type === "elite") {
+            navigate(`/home/eliteUser/${userId}`);
+          } else {
+            // Assuming non-elite users are basic users
+            navigate(`/home/basicUser/${userId}`);
+          }
+        } else if (usertype === "Coach") {
+          changeUserType("Coach");
+          navigate("/coachHomepage");
+        } else {
+          changeUserType("Admin");
+          navigate("/Admin");
+        }
+      } else {
+        console.error(
+          `Failed to fetch membership data. Status: ${response.status}`
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching membership data:", error.message);
+    }
+  };
   const handleLogin = async () => {
     // Validate form fields
     const newErrors = {};
 
     if (!loginData.email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else {
       // Email pattern check
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(loginData.email)) {
-        newErrors.email = 'Invalid email address';
+        newErrors.email = "Invalid email address";
       }
     }
 
     if (!loginData.password) {
-      newErrors.password = 'Password is required';
-    } 
+      newErrors.password = "Password is required";
+    }
 
     // If there are errors, update the state and return
     if (Object.keys(newErrors).length > 0) {
@@ -50,10 +88,10 @@ const LoginPage = ({ changeUserId, changeUserType }) => {
     }
 
     try {
-      const response = await fetch('http://localhost:3001/login', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3001/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(loginData),
       });
@@ -61,21 +99,20 @@ const LoginPage = ({ changeUserId, changeUserType }) => {
       if (response.ok) {
         const responseData = await response.json();
         const { userId, usertype } = responseData;
-        sessionStorage.setItem('userId', userId);
-        sessionStorage.setItem('usertype', usertype);
+        sessionStorage.setItem("userId", userId);
+        sessionStorage.setItem("usertype", usertype);
         changeUserId(userId);
-        if (usertype === 'User') {
-          changeUserType('User');
-          navigate('/user');
-        } else if (usertype === 'Coach') {
-          changeUserType('Coach');
-          navigate('/coachHomepage');
+        if (usertype === "Coach") {
+          changeUserType("Coach");
+          navigate("/coachHomepage");
+        } else if (usertype === "Admin") {
+          changeUserType("Admin");
+          navigate("/Admin");
         } else {
-          changeUserType('Admin');
-          navigate('/Admin');
+          await fetchMembershipData(userId, usertype);
         }
       } else {
-        setErrors({ general: 'Login failed' });
+        setErrors({ general: "Login failed" });
       }
     } catch (error) {
       setErrors({ general: `Error during login: ${error.message}` });
@@ -90,7 +127,7 @@ const LoginPage = ({ changeUserId, changeUserType }) => {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        style={{ minHeight: '100vh' }}
+        style={{ minHeight: "100vh" }}
       >
         <Grid item xs={12}>
           <Typography variant="h4" align="center">
@@ -124,7 +161,12 @@ const LoginPage = ({ changeUserId, changeUserType }) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <Button variant="contained" color="primary" fullWidth onClick={handleLogin}>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={handleLogin}
+          >
             Login
           </Button>
         </Grid>
