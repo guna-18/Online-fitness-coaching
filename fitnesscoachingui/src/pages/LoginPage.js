@@ -1,12 +1,3 @@
-<<<<<<< Updated upstream
-import React from 'react';
-
-export default function LoginPage(){
-return(
-<></>
-);
-}
-=======
 import React, { useState } from "react";
 import {
   Container,
@@ -27,7 +18,6 @@ const LoginPage = ({ changeUserId, changeUserType }) => {
   });
 
   const [errors, setErrors] = useState({});
-  const [membershipData, setMembershipData] = useState(null);
 
   const handleChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -35,43 +25,6 @@ const LoginPage = ({ changeUserId, changeUserType }) => {
     setErrors({ ...errors, [e.target.name]: null });
   };
 
-  const fetchMembershipData = async (userId, usertype) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3001/membership/${userId}`
-      );
-
-      if (response.ok) {
-        const membershipData = await response.json();
-        console.log("first", membershipData.type);
-        setMembershipData(membershipData.type);
-        changeUserId(userId);
-
-        console.log("second", membershipData.type);
-        if (usertype === "User") {
-          changeUserType("User");
-          if (membershipData && membershipData.type === "elite") {
-            navigate(`/home/eliteUser/${userId}`);
-          } else {
-            // Assuming non-elite users are basic users
-            navigate(`/home/basicUser/${userId}`);
-          }
-        } else if (usertype === "Coach") {
-          changeUserType("Coach");
-          navigate("/coachHomepage");
-        } else {
-          changeUserType("Admin");
-          navigate("/Admin");
-        }
-      } else {
-        console.error(
-          `Failed to fetch membership data. Status: ${response.status}`
-        );
-      }
-    } catch (error) {
-      console.error("Error fetching membership data:", error.message);
-    }
-  };
   const handleLogin = async () => {
     // Validate form fields
     const newErrors = {};
@@ -108,8 +61,19 @@ const LoginPage = ({ changeUserId, changeUserType }) => {
       if (response.ok) {
         const responseData = await response.json();
         const { userId, usertype } = responseData;
-
-        await fetchMembershipData(userId, usertype);
+        sessionStorage.setItem("userId", userId);
+        sessionStorage.setItem("usertype", usertype);
+        changeUserId(userId);
+        if (usertype === "User") {
+          changeUserType("User");
+          navigate("/user");
+        } else if (usertype === "Coach") {
+          changeUserType("Coach");
+          navigate("/coachHomepage");
+        } else {
+          changeUserType("Admin");
+          navigate("/Admin");
+        }
       } else {
         setErrors({ general: "Login failed" });
       }
@@ -185,4 +149,3 @@ const LoginPage = ({ changeUserId, changeUserType }) => {
 };
 
 export default LoginPage;
->>>>>>> Stashed changes

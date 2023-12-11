@@ -29,6 +29,10 @@ const userDetailsSchema = new mongoose.Schema({
   usertype: {
     type: String,
     enum: ['Admin', 'User', 'Coach']
+  },
+  profileImage: {
+    data: Buffer,
+    contentType: String
   }
 }, {
   versionKey: false
